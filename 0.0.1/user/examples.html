@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Examples &mdash; slimscat 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="slimscat 0.0.1 documentation" href="../index.html"/>
+        <link rel="next" title="Module Functions" href="ss.html"/>
+        <link rel="prev" title="Installation" href="install.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> slimscat
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gaussian">Gaussian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gargantua">Gargantua</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ss.html">Module Functions</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">slimscat</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Examples</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/user/examples.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="examples">
+<span id="id1"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="gaussian">
+<h2>Gaussian<a class="headerlink" href="#gaussian" title="Permalink to this headline">¶</a></h2>
+<p>The following code scatters a Gaussian source.</p>
+<p>First, we generate our source model as a 2D numpy array.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c"># construct gaussian source</span>
+<span class="n">nx</span><span class="p">,</span><span class="n">ny</span> <span class="o">=</span> <span class="mi">220</span><span class="p">,</span><span class="mi">256</span>
+<span class="n">yy</span><span class="p">,</span><span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span><span class="o">-</span><span class="n">ny</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">-</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">indexing</span><span class="o">=</span><span class="s">&#39;ij&#39;</span><span class="p">)</span>
+<span class="n">isrc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">xx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">yy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.07</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">]))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next we generate the screen which will be written to the file gaussian_screen.bin.
+This permits us to run many simulations using the same screen.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># generate screen</span>
+<span class="n">generate_screen</span><span class="p">(</span><span class="n">screenfile</span><span class="o">=</span><span class="s">&#39;gaussian_screen.bin&#39;</span><span class="p">)</span>
+
+<span class="c"># scatter source</span>
+<span class="n">iss</span> <span class="o">=</span> <span class="n">run_slimscat</span><span class="p">(</span><span class="n">isrc</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="n">screenfile</span><span class="o">=</span><span class="s">&#39;gaussian_screen.bin&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Our gaussian source appears to have been scrambled by our simulated screen.</p>
+<img alt="http://i172.photobucket.com/albums/w36/krosenf/gaussian_zpsdelzel97.png" src="http://i172.photobucket.com/albums/w36/krosenf/gaussian_zpsdelzel97.png" />
+</div>
+<div class="section" id="gargantua">
+<h2>Gargantua<a class="headerlink" href="#gargantua" title="Permalink to this headline">¶</a></h2>
+<p>In this example we will have a bit of fun and use an image rendered to look
+like the supermassive black hole from the movie
+<a class="reference external" href="http://www.interstellarmovie.net/">Interstellar</a>.</p>
+<div class="figure" id="id2">
+<img alt="http://i172.photobucket.com/albums/w36/krosenf/gargantua_zpsdjotmjwm.jpg" src="http://i172.photobucket.com/albums/w36/krosenf/gargantua_zpsdjotmjwm.jpg" />
+<p class="caption"><span class="caption-text">Image by <a class="reference external" href="http://blenderartists.org/forum/showthread.php?355402-Interstellar-Black-Hole/page2">BlackRainbow</a></span></p>
+</div>
+<p>We&#8217;ll generate the
+screen for observations at a slightly smaller wavelength and higher
+resolution.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># generate scattering file</span>
+<span class="n">generate_screen</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="mf">0.87e-6</span><span class="p">,</span><span class="n">dx</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">ips</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">screenfile</span><span class="o">=</span><span class="s">&#39;gargantua_screen.bin&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And we&#8217;ll run the simulation over each RGB channel disregarding the important
+dependence on wavelength.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># load RGB image with rough scale appropriate for Sgr A*</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">misc</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s">&#39;gargantua.jpg&#39;</span><span class="p">)</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="mf">50.</span><span class="o">/</span><span class="mi">350</span>    <span class="c"># photon ring diameter is about 50 microarcseconds</span>
+<span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nchan</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="c"># scatter each rgb channel separately (using same screen)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">run_slimscat</span><span class="p">(</span><span class="n">model</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span><span class="n">dx</span><span class="p">,</span><span class="n">screenfile</span><span class="o">=</span><span class="s">&#39;gargantua_screen.bin&#39;</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">run_slimscat</span><span class="p">(</span><span class="n">model</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span><span class="n">dx</span><span class="p">,</span><span class="n">screenfile</span><span class="o">=</span><span class="s">&#39;gargantua_screen.bin&#39;</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">run_slimscat</span><span class="p">(</span><span class="n">model</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span><span class="n">dx</span><span class="p">,</span><span class="n">screenfile</span><span class="o">=</span><span class="s">&#39;gargantua_screen.bin&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And Gargantua appears scattered:</p>
+<img alt="http://i172.photobucket.com/albums/w36/krosenf/scattered_gargantua_zpszg45omwc.jpg" src="http://i172.photobucket.com/albums/w36/krosenf/scattered_gargantua_zpszg45omwc.jpg" />
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ss.html" class="btn btn-neutral float-right" title="Module Functions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Katherine Rosenfeld.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
