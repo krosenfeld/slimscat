@@ -9,7 +9,7 @@ A python module for adding realistic interstellar scattering to
 astronomical images.
 
 You can follow the active development of this project through its public
-repository on GitHub.  
+repository on `GitHub <https://github.com/krosenfeld/slimscat>`_.  
 
 Quick Guide
 -----------
