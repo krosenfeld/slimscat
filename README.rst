@@ -3,6 +3,8 @@ slimscat
 
 A python module for adding realistic scattering to astronomical images.
 
+Go to http://krosenfeld.github.io/slimscat/ for examples and a quick guide.
+
 reference
 ---------
 
