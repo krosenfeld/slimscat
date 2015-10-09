@@ -1,1 +1,1 @@
-from slimscat import run_slimscat,generate_screen
+from slimscat import *

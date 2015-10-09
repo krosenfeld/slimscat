@@ -28,9 +28,9 @@ def generate_screen(nphi=2**13,dx=1.,wavelength=1.3e-6,\
   :param r_outer: outer turbulence scale [r0]
   :param r_inner: inner turbulence scale [r0]
   :param alpha: power-law index
-  :param ips: image to screen pixel ratio 
+  :param ips: image to screen pixel ratio
   :param screenfile: screen file name
-  
+
   '''
   AU = 149597871e0   # 1 AU in km
   PC = 3.08567758e13 # 1 pc in km
@@ -60,7 +60,7 @@ def generate_screen(nphi=2**13,dx=1.,wavelength=1.3e-6,\
   # calculate structure function
   phi = np.fft.fft2(phi_t).real
 
-  # normalize structure function 
+  # normalize structure function
   nrm = screen_dx/(r0*np.sqrt(1.*((phi[:-1,:] - phi[1:,:])**2).sum()/(nphi*(nphi-1))))
   phi *= nrm
 
@@ -76,13 +76,17 @@ def generate_screen(nphi=2**13,dx=1.,wavelength=1.3e-6,\
   f = open(screenfile,'wb')
 
   # write header size (4)
-  f.write(struct.pack('i',2*4 + 1*8))
-
+  f.write(struct.pack('i',2*4 + 4*8))
   # write array size (4)
   f.write(struct.pack('i',dphi_x.size))
-
-  #write e write resolution element (8)
+  # write resolution element (8)
   f.write(struct.pack('d',dx))
+  # write r0 (8)
+  f.write(struct.pack('d',r0))
+  # write wavelength (8)
+  f.write(struct.pack('d',wavelength))
+  # write m (8)
+  f.write(struct.pack('d',m))
 
   # write gradient arrays
   for i in dphi_x.ravel():
@@ -90,6 +94,22 @@ def generate_screen(nphi=2**13,dx=1.,wavelength=1.3e-6,\
   for i in dphi_y.ravel():
     f.write(struct.pack('d',i))
   f.close()
+
+def fetch_hdr(screenfile='screen.bin'):
+  '''
+  Get screen header
+
+  :param screenfile: (optional) screen file
+  '''
+  hdr = {}
+  f = open(screenfile,'rb')
+  hdr['hdrsize'] = struct.unpack('i',f.read(4))[0]
+  hdr['nphi'] = int(np.sqrt(struct.unpack('i',f.read(4))[0]))
+  hdr['dx'] = struct.unpack('d',f.read(8))[0]
+  hdr['r0'] = struct.unpack('d',f.read(8))[0]
+  hdr['wavelength'] = struct.unpack('d',f.read(8))[0]
+  hdr['m'] = struct.unpack('d',f.read(8))[0]
+  return hdr
 
 
 def run_slimscat(isrc,idx,screenfile='screen.bin'):
@@ -107,6 +127,7 @@ def run_slimscat(isrc,idx,screenfile='screen.bin'):
   hdrsize = struct.unpack('i',f.read(4))[0]
   nphi = int(np.sqrt(struct.unpack('i',f.read(4))[0]))
   dx   = struct.unpack('d',f.read(8))[0]
+  f.seek(hdrsize)
 
   # filter image
 
@@ -121,10 +142,10 @@ def run_slimscat(isrc,idx,screenfile='screen.bin'):
   dphi_y = np.empty((ny,nx),dtype=np.float64)
   for i in range(ny):
     f.seek(hdrsize + i*8*1*nphi,0)
-    dphi_x[i,:] = struct.unpack('{0:d}d'.format(nx),f.read(nx*8)) 
+    dphi_x[i,:] = struct.unpack('{0:d}d'.format(nx),f.read(nx*8))
   for i in range(ny):
     f.seek(hdrsize + 8*nphi*nphi + i*8*1*nphi,0)
-    dphi_y[i,:] = struct.unpack('{0:d}d'.format(nx),f.read(nx*8)) 
+    dphi_y[i,:] = struct.unpack('{0:d}d'.format(nx),f.read(nx*8))
 
   f.close()
 
