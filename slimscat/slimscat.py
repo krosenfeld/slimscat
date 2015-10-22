@@ -37,7 +37,7 @@ def generate_screen(nphi=2**13,dx=1.,wavelength=1.3e-6,\
   RADPERUAS = np.radians(1./(3600*1e6))
   d = dpc - r
   m = d/r
-  r0 = 3136.67*(wavelength/1.3e-6)**-2
+  r0 = 3136.67*(1.3e-6/wavelength)
   rf = np.sqrt(dpc*PC / (2*np.pi/wavelength)*m / (1+m)**2)
   screen_dx = 1e-6*dx*d*AU / ips
   screen_res = screen_dx / r0
